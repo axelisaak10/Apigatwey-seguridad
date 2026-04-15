@@ -3,7 +3,7 @@
 const fp = require("fastify-plugin");
 
 module.exports = fp(async function (fastify, opts) {
-  const defaultOrigins = "https://auth-chi-ebon.vercel.app,https://auth-dncf1iwnd-axelisaak10s-projects.vercel.app";
+  const defaultOrigins = "https://fron-end-proyecto-seguridad.vercel.app,https://back-end-tikets.onrender.com,https://back-end-grups.vercel.app,https://back-end-users-three.vercel.app";
   const origins = (process.env.CORS_ORIGINS || defaultOrigins)
     .split(",")
     .map((o) => o.trim())
