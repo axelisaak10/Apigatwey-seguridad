@@ -23,12 +23,9 @@ module.exports = fp(async function (fastify, opts) {
         const cookies = originalReq.headers.cookie || "";
         let authHeader = originalReq.headers.authorization || "";
 
-        console.log("[PROXY-GROUPS] Request:", {
-          method: originalReq.method,
-          path: originalReq.url,
-          hasCookie: !!cookies,
-          hasAuthHeader: !!authHeader,
-        });
+        console.log(`[PROXY-GROUPS] [${originalReq.method}] ${originalReq.url}`);
+        console.log(`[PROXY-GROUPS] Original Auth Header: ${authHeader ? "PRESENT" : "MISSING"}`);
+        console.log(`[PROXY-GROUPS] Original Cookie Header: ${cookies ? "PRESENT" : "MISSING"}`);
 
         // Si hay cookie pero no hay authHeader, extraer el token de la cookie
         if (!authHeader && cookies) {
@@ -37,10 +34,9 @@ module.exports = fp(async function (fastify, opts) {
           if (authCookie) {
             const token = authCookie.substring('Authentication='.length);
             authHeader = `Bearer ${decodeURIComponent(token)}`;
-            console.log("[PROXY-GROUPS] Token extracted from cookie:", {
-              tokenLength: token.length,
-              tokenPreview: token.substring(0, 30) + "..."
-            });
+            console.log(`[PROXY-GROUPS] Extracted token from cookie. Length: ${token.length}`);
+          } else {
+            console.log("[PROXY-GROUPS] 'Authentication' cookie NOT found in cookie string.");
           }
         }
 

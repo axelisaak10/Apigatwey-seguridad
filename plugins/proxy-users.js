@@ -48,11 +48,13 @@ module.exports = fp(async function (fastify, opts) {
       onResponse: (request, reply, res) => {
         const urlPath = request.url?.split("?")[0] || "";
         const statusCode = res.statusCode;
+        const contentEncoding = res.headers["content-encoding"];
 
         if (
           request.method === "GET" &&
           statusCode === 200 &&
-          CACHEABLE_PATHS.has(urlPath)
+          CACHEABLE_PATHS.has(urlPath) &&
+          !contentEncoding // Solo cachear si no hay compresión, para evitar corrupción
         ) {
           const chunks = [];
           res.stream.on("data", (chunk) => chunks.push(chunk));
