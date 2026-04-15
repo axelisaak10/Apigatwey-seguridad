@@ -43,14 +43,7 @@ module.exports = fp(async function (fastify, opts) {
         };
       },
       getProxyResponseHeaders: (proxyRes) => {
-        const headers = {};
-        if (proxyRes.headers["content-type"]) {
-          headers["content-type"] = proxyRes.headers["content-type"];
-        }
-        if (proxyRes.headers["authorization"]) {
-          headers["authorization"] = proxyRes.headers["authorization"];
-        }
-        return headers;
+        return proxyRes.headers;
       },
       onResponse: (request, reply, res) => {
         const urlPath = request.url?.split("?")[0] || "";

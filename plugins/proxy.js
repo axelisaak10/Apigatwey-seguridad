@@ -38,7 +38,11 @@ module.exports = fp(async function (fastify, opts) {
           ...headers,
           cookie: cookies,
           authorization: authHeader,
+          host: new URL(USERS_SERVICE_URL).host,
         };
+      },
+      getProxyResponseHeaders: (proxyRes) => {
+        return proxyRes.headers;
       },
 
       // onResponse(request, reply, res) — firma de @fastify/reply-from
